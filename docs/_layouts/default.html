@@ -32,44 +32,27 @@
         {% for dir in pages_by_dir %}
             {% assign has_html_files = false %}
             {% for p in dir.items %}
-                <!-- Guard clause: Skip if the page is the current page -->
-                {% if p.url == page.url %}{% continue %}{% endif %}
-
-                <!-- Guard clause: Skip if the page is index.html -->
-                {% if p.url == "/index.html" %}{% continue %}{% endif %}
-
-                <!-- Guard clause: Skip if the page is not an HTML file -->
-                {% unless p.url.endswith? ".html" %}{% continue %}{% endunless %}
-
-                <!-- If we reach here, the page is valid -->
-                {% assign has_html_files = true %}
+                {% if p.url != page.url and p.url != "/index.html" and p.url.endswith? ".html" %}
+                    {% assign has_html_files = true %}
+                {% endif %}
             {% endfor %}
 
-            <!-- Guard clause: Skip this directory if it has no valid HTML files -->
-            {% unless has_html_files %}{% continue %}{% endunless %}
-
-            <li>
-                <strong>{{ dir.name | default: "Root Directory" }}</strong>
-                <ul>
-                    {% for p in dir.items %}
-                        <!-- Guard clause: Skip if the page is the current page -->
-                        {% if p.url == page.url %}{% continue %}{% endif %}
-
-                        <!-- Guard clause: Skip if the page is index.html -->
-                        {% if p.url == "/index.html" %}{% continue %}{% endif %}
-
-                        <!-- Guard clause: Skip if the page is not an HTML file -->
-                        {% unless p.url.endswith? ".html" %}{% continue %}{% endunless %}
-
-                        <!-- If we reach here, the page is valid -->
-                        <li>
-                            <a href="{{ p.url | relative_url }}">
-                                {{ p.title | default: p.url }}
-                            </a>
-                        </li>
-                    {% endfor %}
-                </ul>
-            </li>
+            {% if has_html_files %}
+                <li>
+                    <strong>{{ dir.name | default: "Root Directory" }}</strong>
+                    <ul>
+                        {% for p in dir.items %}
+                            {% if p.url != page.url and p.url != "/index.html" and p.url.endswith? ".html" %}
+                                <li>
+                                    <a href="{{ p.url | relative_url }}">
+                                        {{ p.title | default: p.url }}
+                                    </a>
+                                </li>
+                            {% endif %}
+                        {% endfor %}
+                    </ul>
+                </li>
+            {% endif %}
         {% endfor %}
     </ul>
 
