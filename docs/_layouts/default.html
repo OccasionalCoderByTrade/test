@@ -10,6 +10,19 @@
     <meta name="theme-color" content="#157878">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <link rel="stylesheet" href="{{ '/assets/css/style.css?v=' | append: site.github.build_revision | relative_url }}">
+    <style>
+      @media print {
+        li {
+          page-break-inside: avoid;
+        }
+      }
+      @media print {
+        footer {
+          display: none;
+        }
+      }
+    </style>
+    
     {% include head-custom.html %}
   </head>
   <body>
@@ -25,36 +38,7 @@
     </header>
 
     <main id="content" class="main-content" role="main">
-<!--       {{ content }} -->
-<h2>Available Pages</h2>
-    {% assign pages_by_dir = site.pages | group_by: "dir" %}
-    <ul>
-        {% for dir in pages_by_dir %}
-            {% assign has_html_files = false %}
-            {% for p in dir.items %}
-                {% if p.url != page.url and p.url != "/index.html" and p.url.endswith? ".html" %}
-                    {% assign has_html_files = true %}
-                {% endif %}
-            {% endfor %}
-
-            {% if has_html_files %}
-                <li>
-                    <strong>{{ dir.name | default: "Root Directory" }}</strong>
-                    <ul>
-                        {% for p in dir.items %}
-                            {% if p.url != page.url and p.url != "/index.html" and p.url.endswith? ".html" %}
-                                <li>
-                                    <a href="{{ p.url | relative_url }}">
-                                        {{ p.title | default: p.url }}
-                                    </a>
-                                </li>
-                            {% endif %}
-                        {% endfor %}
-                    </ul>
-                </li>
-            {% endif %}
-        {% endfor %}
-    </ul>
+      {{ content }}
 
       <footer class="site-footer">
         {% if site.github.is_project_page %}
