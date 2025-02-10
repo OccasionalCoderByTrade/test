@@ -1,2 +1,3 @@
 [Test file](./test.md)
-[Test txt file](./test)
+
+[Test txt file](./test.txt)
