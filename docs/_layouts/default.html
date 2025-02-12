@@ -45,20 +45,17 @@
       <a href="{{ root_dir }}">Home</a>
       {% for crumb in crumbs offset: 1 %}
         {% if crumb != "" %}
-          {% assign crumb_text = crumb | replace:'-',' ' | remove:'.html' | capitalize | url_decode %}
-          {% assign crumb_url = crumb | append: '/' %}
-          
-          {% if forloop.last %}
-            / {{ crumb_text }}
-          {% else %}
-            {% assign crumb_url_full = root_dir %}
-            {% for crumb_part in crumbs offset: 1 limit: forloop.index %}
-              {% if crumb_part != "" %}
-                {% assign crumb_url_full = crumb_url_full | append: crumb_part | append: '/' %}
-              {% endif %}
-            {% endfor %}
-            / <a href="{{ crumb_url_full }}">{{ crumb_text }}</a>
-          {% endif %}
+          {% comment %} Skip crumb if it's an index file {% endcomment %}
+          {% unless crumb == "index.html" or crumb == "index" %}
+            {% comment %} URL-decode the crumb for display {% endcomment %}
+            {% assign crumb_display_text = crumb | replace:'-',' ' | remove:'.html' | uri_decode | capitalize %}
+            
+            {% if forloop.last %}
+              / {{ crumb_display_text }}
+            {% else %}
+              / <a href="{{ root_dir }}{% for crumb in crumbs limit: forloop.index %}{% if crumb != "" %}{{ crumb | append: '/' | remove: '//' }}{% endif %}{% endfor %}">{{ crumb_display_text }}</a>
+            {% endif %}
+          {% endunless %}
         {% endif %}
       {% endfor %}
     </div>
