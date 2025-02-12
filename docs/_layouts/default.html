@@ -37,10 +37,9 @@
       {% endif %}
     </header>
 
-    {% assign crumbs = page.url | remove:'/index.html' | split: '/' %}
-
     <div style="max-width: 64rem; padding: 4px; margin-left: auto; margin-right: auto;">
-      <a href="/test">Home</a>
+      {% assign crumbs = page.url | remove:'/index.html' | split: '/' %}
+      <a href="/">Home</a>
         {% for crumb in crumbs offset: 1 %}
           {% if forloop.last %}
             / {{ crumb | replace:'-',' ' | remove:'.html' | capitalize }}
