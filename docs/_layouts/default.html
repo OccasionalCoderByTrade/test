@@ -45,10 +45,11 @@
       <a href="{{ root_dir }}">Home</a>
       {% for crumb in crumbs offset: 1 %}
         {% if crumb != "" %}
+          {% assign decoded_crumb = crumb | uri_decode | replace:'-',' ' | remove:'.html' | capitalize %}
           {% if forloop.last %}
-            / {{ crumb | uri_decode | replace:'-',' ' | remove:'.html' | capitalize }}
+            / {{ decoded_crumb }}
           {% else %}
-            / <a href="{{ root_dir }}{% for crumb in crumbs limit: forloop.index %}{% if crumb != "" %}{{ crumb | append: '/' | remove: '//' }}{% endif %}{% endfor %}">{{ crumb | uri_decode | replace:'-',' ' | remove:'.html' | capitalize }}</a>
+            / <a href="{{ root_dir }}{% for crumb in crumbs limit: forloop.index %}{% if crumb != "" %}{{ crumb | append: '/' | remove: '//' }}{% endif %}{% endfor %}">{{ decoded_crumb }}</a>
           {% endif %}
         {% endif %}
       {% endfor %}
