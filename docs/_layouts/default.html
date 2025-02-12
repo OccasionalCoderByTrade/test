@@ -46,17 +46,18 @@
       {% for crumb in crumbs offset: 1 %}
         {% if crumb != "" %}
           {% assign crumb_text = crumb | replace:'-',' ' | remove:'.html' | capitalize | url_decode %}
+          {% assign crumb_url = crumb | append: '/' %}
           
           {% if forloop.last %}
             / {{ crumb_text }}
           {% else %}
-            {% assign crumb_url = root_dir %}
+            {% assign crumb_url_full = root_dir %}
             {% for crumb_part in crumbs offset: 1 limit: forloop.index %}
               {% if crumb_part != "" %}
-                {% assign crumb_url = crumb_url | append: crumb_part | append: '/' %}
+                {% assign crumb_url_full = crumb_url_full | append: crumb_part | append: '/' %}
               {% endif %}
             {% endfor %}
-            / <a href="{{ crumb_url }}">{{ crumb_text }}</a>
+            / <a href="{{ crumb_url_full }}">{{ crumb_text }}</a>
           {% endif %}
         {% endif %}
       {% endfor %}
