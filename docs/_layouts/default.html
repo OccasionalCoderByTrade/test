@@ -40,14 +40,17 @@
     <div style="max-width: 64rem; padding: 4px; margin-left: auto; margin-right: auto;">
       {% assign crumbs = page.url | remove:'/index.html' | split: '/' %}
       {% assign root_dir = '/test' %}
-
+      
       <a href="{{ root_dir }}">Home</a>
       {% for crumb in crumbs offset: 1 %}
         {% if crumb != "" %}
+          {% assign crumb_text = crumb | replace:'-',' ' | remove:'.html' | capitalize | url_decode %}
+          {% assign crumb_url = crumb | append: '/' %}
+          
           {% if forloop.last %}
-            / {{ crumb | replace:'-',' ' | remove:'.html' | capitalize }}
+            / {{ crumb_text }}
           {% else %}
-            / <a href="{{ root_dir }}{% for crumb in crumbs limit: forloop.index %}{% if crumb != "" %}{{ crumb | append: '/' | remove: '//' }}{% endif %}{% endfor %}">{{ crumb | replace:'-',' ' | remove:'.html' | capitalize }}</a>
+            / <a href="{{ root_dir }}{% for crumb in crumbs limit: forloop.index %}{% if crumb != "" %}{{ crumb | append: '/' | remove: '//' }}{% endif %}{% endfor %}">{{ crumb_text }}</a>
           {% endif %}
         {% endif %}
       {% endfor %}
