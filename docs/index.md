@@ -1,3 +1,3 @@
-[Test file](./test%20file.md)
+[Test file](./test%20file)
 
 [Test txt file](./test.txt)
