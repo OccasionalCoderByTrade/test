@@ -73,35 +73,32 @@
     </div>
 
 
-{% assign path_parts = page.url | split: '/' %}
-{% assign parts_size = path_parts | size %}
-
-{% comment %}
-  Handle:
-  - /folder/ or /folder/index         → no go back
-  - /folder/file                      → go back = "./"
-  - /folder/.../file                  → go back = "../"
-{% endcomment %}
-
-{% if path_parts.last == "" or path_parts.last == "index" %}
-  {%- comment -%} Do not render go back link {%- endcomment -%}
-
-{% elsif parts_size == 3 %}
-  {% comment %} Path like /folder/file → show "./" {% endcomment %}
-  <div class="go-back-strip">
-    <div class="go-back-strip-inner">
-      <a href="./">❮ Go Back</a>
-    </div>
-  </div>
-
-{% else %}
-  {% comment %} Path like /folder/subfolder/file → show "../" {% endcomment %}
+{% capture previous_dir_snippet %}
   <div class="go-back-strip">
     <div class="go-back-strip-inner">
       <a href="../">❮ Go Back</a>
     </div>
   </div>
+{% endcapture %}
+
+{% capture current_dir_snippet %}
+  <div class="go-back-strip">
+    <div class="go-back-strip-inner">
+      <a href="./">❮ Go Back</a>
+    </div>
+  </div>
+{% endcapture %}
+
+{% assign path_parts = page.url | split: '/' %}
+{% assign parts_size = path_parts | size %}
+{% assign ends_with_slash = page.url | slice: -1 %}
+
+{% if parts_size == 3 and ends_with_slash != '/' %}
+  {{ current_dir_snippet }}
+{% elsif parts_size > 3 %}
+  {{ previous_dir_snippet }}
 {% endif %}
+
 
 
     
