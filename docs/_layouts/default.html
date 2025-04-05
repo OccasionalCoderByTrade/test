@@ -84,10 +84,10 @@
 {% endcomment %}
 
 {% if path_parts.last == "" or path_parts.last == "index" %}
-  {# Do not render go back link #}
+  {%- comment -%} Do not render go back link {%- endcomment -%}
 
 {% elsif parts_size == 3 %}
-  {# Path like /folder/file → show "./" #}
+  {% comment %} Path like /folder/file → show "./" {% endcomment %}
   <div class="go-back-strip">
     <div class="go-back-strip-inner">
       <a href="./">❮ Go Back</a>
@@ -95,13 +95,14 @@
   </div>
 
 {% else %}
-  {# Path like /folder/subfolder/file → show "../" #}
+  {% comment %} Path like /folder/subfolder/file → show "../" {% endcomment %}
   <div class="go-back-strip">
     <div class="go-back-strip-inner">
       <a href="../">❮ Go Back</a>
     </div>
   </div>
 {% endif %}
+
 
     
   </header>
