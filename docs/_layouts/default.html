@@ -72,24 +72,38 @@
       {% endif %}
     </div>
 
-  {% assign path_segments = page.url | split: '/' %}
-  {% assign depth = path_segments | size | minus: 2 %}  {# minus 2 to account for empty first segment #}
-  
-  {% if depth >= 2 %}
-    {# Subdirectory or nested file: show "../" #}
-    <div class="go-back-strip">
-      <div class="go-back-strip-inner">
-        <a href="../">❮ Go Back</a>
-      </div>
+
+{% assign path_parts = page.url | split: '/' %}
+{% assign parts_size = path_parts | size %}
+
+{% comment %}
+  Handle:
+  - /folder/ or /folder/index         → no go back
+  - /folder/file                      → go back = "./"
+  - /folder/.../file                  → go back = "../"
+{% endcomment %}
+
+{% if path_parts.last == "" or path_parts.last == "index" %}
+  {# Do not render go back link #}
+
+{% elsif parts_size == 3 %}
+  {# Path like /folder/file → show "./" #}
+  <div class="go-back-strip">
+    <div class="go-back-strip-inner">
+      <a href="./">❮ Go Back</a>
     </div>
-  {% elsif depth == 1 and path_segments.last != '' and path_segments.last != 'index' %}
-    {# Root-level file (not dir/index): show "./" #}
-    <div class="go-back-strip">
-      <div class="go-back-strip-inner">
-        <a href="./">❮ Go Back</a>
-      </div>
+  </div>
+
+{% else %}
+  {# Path like /folder/subfolder/file → show "../" #}
+  <div class="go-back-strip">
+    <div class="go-back-strip-inner">
+      <a href="../">❮ Go Back</a>
     </div>
-  {% endif %}
+  </div>
+{% endif %}
+
+    
   </header>
 
   <main id="content" class="main-content" role="main">
