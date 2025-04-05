@@ -73,25 +73,19 @@
     </div>
 
 
-{% capture previous_dir_snippet %}
+{% assign path_parts = page.url | split: '/' %}
+{% assign non_empty_parts = path_parts | reject: '' %}
+{% assign path_length = non_empty_parts | size %}
+{% assign url_ends_with_slash = page.url | slice: -1 %}
+
+{% if path_length > 3 or (path_length == 3 and url_ends_with_slash == '/') %}
   <div class="go-back-strip">
     <div class="go-back-strip-inner">
       <a href="../">❮ Go Back</a>
     </div>
   </div>
-{% endcapture %}
-
-
-
-{% assign path_parts = page.url | split: '/' %}
-{% assign parts_size = path_parts | size %}
-{% assign last_char = page.url | slice: -1 %}
-
-{% if parts_size > 3 %}
-  {{ previous_dir_snippet }}
-{% elsif parts_size == 3 and last_char == '/' %}
-  {{ previous_dir_snippet }}
 {% endif %}
+
 
     
   </header>
