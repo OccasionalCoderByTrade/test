@@ -72,8 +72,8 @@
       {% endif %}
     </div>
 
-  {% unless page.url == '/' or page.url == '/test/' or page.url == '/test' or 
-          page.url contains '/test/' and page.url.size == page.url | split: '/' | last | size | plus: 6 %}
+  {% assign url_slash_count = page.url | split: '/' | size | minus: 1 %}
+  {% unless url_slash_count == 1 or url_slash_count == 2 %}
     <div class="go-back-strip">
       <div class="go-back-strip-inner">
         <a href="../">❮ Go Back</a>
