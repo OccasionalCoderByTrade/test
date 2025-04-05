@@ -1,5 +1,0 @@
-## Test File
-
-```
-test snippet
-```
