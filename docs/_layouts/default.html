@@ -72,14 +72,24 @@
       {% endif %}
     </div>
 
-  {% assign url_slash_count = page.url | split: '/' | size | minus: 1 %}
-  {% unless url_slash_count == 1 or url_slash_count == 2 %}
+  {% assign path_segments = page.url | split: '/' %}
+  {% assign depth = path_segments | size | minus: 2 %}  {# minus 2 to account for empty first segment #}
+  
+  {% if depth >= 2 %}
+    {# Subdirectory or nested file: show "../" #}
     <div class="go-back-strip">
       <div class="go-back-strip-inner">
         <a href="../">❮ Go Back</a>
       </div>
     </div>
-  {% endunless %}
+  {% elsif depth == 1 and path_segments.last != '' and path_segments.last != 'index' %}
+    {# Root-level file (not dir/index): show "./" #}
+    <div class="go-back-strip">
+      <div class="go-back-strip-inner">
+        <a href="./">❮ Go Back</a>
+      </div>
+    </div>
+  {% endif %}
   </header>
 
   <main id="content" class="main-content" role="main">
