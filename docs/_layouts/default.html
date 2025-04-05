@@ -13,43 +13,43 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <link rel="stylesheet" href="{{ '/assets/css/style.css?v=' | append: site.github.build_revision | relative_url }}">
   <style>
-    @media print {
-      li {
-        page-break-inside: avoid;
+  <style>
+      @media print {
+        li {
+          page-break-inside: avoid;
+        }
+        footer {
+          display: none;
+        }
       }
-    }
-
-    @media print {
-      footer {
-        display: none;
+      
+      /* Go Back strip styles */
+      .go-back-strip {
+        position: relative;
+        top: -30px;
+        width: 100%;
       }
-    }
-
-    /* [Previous styles remain the same] */
-
-    .go-back-strip {
-      display: block;
-      background-color: #159957;
-      background-image: linear-gradient(120deg, #155799, #159957);
-      color: white;
-      padding: 0.6rem 1rem;
-      margin: -1rem -1rem 1.5rem -1rem;
-      border-radius: 4px;
-      text-decoration: none;
-      font-weight: bold;
-      transition: all 0.2s ease;
-    }
-
-    .go-back-strip:hover {
-      background-color: #128750;
-      background-image: linear-gradient(120deg, #135687, #128750);
-      text-decoration: none;
-    }
-
-    .go-back-strip::before {
-      content: "❮";
-      margin-right: 0.5rem;
-    }
+      
+      .go-back-strip-inner {
+        margin-left: auto;
+        margin-right: auto;
+        max-width: 64rem;
+        padding: 0 1rem;
+      }
+      
+      .go-back-strip a {
+        display: inline-block;
+        color: white;
+        text-decoration: none;
+        font-weight: bold;
+        padding: 0.5rem 0;
+        transition: color 0.2s ease;
+      }
+      
+      .go-back-strip a:hover {
+        color: rgba(255, 255, 255, 0.8);
+        text-decoration: none;
+      }
   </style>
 
   {% include head-custom.html %}
@@ -66,12 +66,17 @@
     <a href="{{ site.github.zip_url }}" class="btn">Download .zip</a>
     <a href="{{ site.github.tar_url }}" class="btn">Download .tar.gz</a>
     {% endif %}
+
+    {% unless page.url == '/' or page.url == '/test/' or page.url == '/test' %}
+      <div class="go-back-strip">
+        <div class="go-back-strip-inner">
+          <a href="../">❮ Go Back</a>
+        </div>
+      </div>
+    {% endunless %}
   </header>
 
   <main id="content" class="main-content" role="main">
-    {% unless page.url == '/' or page.url == '/test/' or page.url == '/test' %}
-    <a href="../" class="go-back-strip">Go Back</a>
-    {% endunless %}
     {{ content }}
 
     <footer class="site-footer">
